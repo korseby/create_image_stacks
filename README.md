@@ -19,6 +19,10 @@ optional arguments:
                         destination image directory
 ```
 
+## TODO
+- check python > 3.7 requirement to be able to do: `os.makedirs(dir_name, parents=True, exist_ok=True)`
+- python version in she bang
+
 ## Changes
 
 ### Version 0.2:
