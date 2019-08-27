@@ -69,11 +69,14 @@ if (len(xmp_labels) != len(xmp_files)):
 img_dir = args.img_dir
 
 img_files = sorted( [f for f in glob.glob(''.join([img_dir, '/', '*.[tTjJ][iIpP][fFgG]']))] )
-
+print(len(img_files))
 # Check whether number of input and output files match
 if (len(xmp_files) != len(img_files)):
 	if (__FORCE__ == True):
-		extension = os.path.splitext(img_files[0])[1]
+		if (len(img_files) <= 0):
+			extension=".TIF"
+		else:
+			extension = os.path.splitext(img_files[0])[1]
 		img_files = [Path(i).stem for i in xmp_files]
 		img_files = [''.join([img_dir, '/', f, extension]) for f in img_files]
 	else:
@@ -101,7 +104,7 @@ for i, label in enumerate(xmp_labels, start=1):
 		
 		# Singular file
 		if (stack_start == stack_end):
-			if (__DEBUG__ == True): print('# Singular file: ' + 'IMG_' + img_nums[stack_start-1] + ' ' + img_names[stack_start-1])
+			if ((__DEBUG__ == True) and (os.path.isfile(img_nums[stack_start-1]))): print('# Singular file: ' + 'IMG_' + img_nums[stack_start-1] + ' ' + img_names[stack_start-1])
 		# Stack with several files
 		else:
 			# Create directory for stack
@@ -114,9 +117,11 @@ for i, label in enumerate(xmp_labels, start=1):
 				exit(5)
 			dir_name = str(str(img_dir) + '/' + 'IMG_' + img_nums[stack_start-1] + '-' + img_nums[stack_end-1] + ' ' + str(dir_name[0]) + '/')
 			if (__DEBUG__ == True):
-				if (os.path.isfile(img_files[stack_start-1])): print('mkdir' + ' ' + '\"' + dir_name + '\"')
+				if ((os.path.isfile(img_files[stack_start-1])) or ((__FORCE__ == True) and (__DIRS_ONLY__ == True))):
+					print('mkdir' + ' ' + '\"' + dir_name + '\"')
 			if (__DRY_RUN__ == False):
-				if (os.path.isfile(img_files[stack_start-1])): os.makedirs(dir_name, exist_ok=True)
+				if ((os.path.isfile(img_files[stack_start-1])) or ((__FORCE__ == True) and (__DIRS_ONLY__ == True))):
+					os.makedirs(dir_name, exist_ok=True)
 			
 			# Move files into directory (stack)
 			if (__DIRS_ONLY__ == False):
