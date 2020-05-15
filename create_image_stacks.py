@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 # Load modules
 import errno
@@ -69,7 +69,7 @@ if (len(xmp_labels) != len(xmp_files)):
 img_dir = args.img_dir
 
 img_files = sorted( [f for f in glob.glob(''.join([img_dir, '/', '*.[tTjJ][iIpP][fFgG]']))] )
-
+print(len(img_files))
 # Check whether number of input and output files match
 if (len(xmp_files) != len(img_files)):
 	if (__FORCE__ == True):
@@ -95,24 +95,20 @@ stack_start = 1
 stack_end = 1
 stack_label = ""
 for i, label in enumerate(xmp_labels, start=1):
-	if (i == 1):
-		if (label == ""):
-			if ((__DEBUG__ == True) and (os.path.isfile(img_nums[stack_start-1]))): print('# Singular file: ' + 'IMG_' + img_nums[stack_start-1] + ' ' + img_names[stack_start-1])
-		else:
-			stack_label = label
-	else:
-		# Detect end of files
-		if (i > len(xmp_labels)):
+	if (i > 1) and ( (i >= len(xmp_labels)) or (label != stack_label) or (label == "")):
+		if (i >= len(xmp_labels)):
 			stack_end = i
-		# Detect end of stack
-		elif (label != stack_label) or (label == ""):
+		else:
 			stack_end = i-1
-			stack_label = label
-				
-		# Create stack with several files
-		if (stack_start != stack_end):
+		stack_label = label
+		
+		# Singular file
+		if (stack_start == stack_end):
+			if ((__DEBUG__ == True) and (os.path.isfile(img_nums[stack_start-1]))): print('# Singular file: ' + 'IMG_' + img_nums[stack_start-1] + ' ' + img_names[stack_start-1])
+		# Stack with several files
+		else:
 			# Create directory for stack
-			dir_name = list(set(img_names[stack_start-1:stack_end-1]))
+			dir_name = list(set(img_names[stack_start-1:stack_end]))
 			if (len(dir_name) == 0):
 				print("Error! No names in stack.")
 				exit(4)
@@ -140,9 +136,7 @@ for i, label in enumerate(xmp_labels, start=1):
 					for j in range(0, len(dir_files)):
 						if (os.path.isfile(dir_files[j])):
 							os.rename(dir_files[j], str(dir_name + '/' + dir_bases[j] + dir_exts[j]))
-			
-			# Create new stack
-			stack_start = i
-			stack_end = i
+		
+		stack_start = i
 
 if (__DEBUG__ == True): print("# Done.")
