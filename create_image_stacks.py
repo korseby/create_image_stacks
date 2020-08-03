@@ -69,7 +69,11 @@ if (len(xmp_labels) != len(xmp_files)):
 img_dir = args.img_dir
 
 img_files = sorted( [f for f in glob.glob(''.join([img_dir, '/', '*.[tTjJ][iIpP][fFgG]']))] )
-print(len(img_files))
+
+# Some information
+if (__DEBUG__) or (__DRY_RUN__):
+	print("Number of image files: " + str(len(img_files)))
+
 # Check whether number of input and output files match
 if (len(xmp_files) != len(img_files)):
 	if (__FORCE__ == True):
@@ -80,7 +84,7 @@ if (len(xmp_files) != len(img_files)):
 		img_files = [Path(i).stem for i in xmp_files]
 		img_files = [''.join([img_dir, '/', f, extension]) for f in img_files]
 	else:
-		print("Error! Number of xmp files does not match number of image files.")
+		print("Error! Number of xmp files (" + str(len(xmp_files)) + ") does not match number of image files (" + str(len(img_files)) + ").")
 		exit(3)
 
 # Image files and names
@@ -95,8 +99,8 @@ stack_start = 1
 stack_end = 1
 stack_label = ""
 for i, label in enumerate(xmp_labels, start=1):
-	if (i > 1) and ( (i >= len(xmp_labels)) or (label != stack_label) or (label == "")):
-		if (i >= len(xmp_labels)):
+	if (i >= len(xmp_labels)) or (label != stack_label) or (label == ""):
+		if (i == 1) or (i >= len(xmp_labels)):
 			stack_end = i
 		else:
 			stack_end = i-1
@@ -104,7 +108,7 @@ for i, label in enumerate(xmp_labels, start=1):
 		
 		# Singular file
 		if (stack_start == stack_end):
-			if ((__DEBUG__ == True) and (os.path.isfile(img_nums[stack_start-1]))): print('# Singular file: ' + 'IMG_' + img_nums[stack_start-1] + ' ' + img_names[stack_start-1])
+			if ((__DEBUG__ == True) and (os.path.isfile(img_nums[stack_start-1]))): print('Singular file: ' + 'IMG_' + img_nums[stack_start-1] + ' ' + img_names[stack_start-1])
 		# Stack with several files
 		else:
 			# Create directory for stack
@@ -139,4 +143,4 @@ for i, label in enumerate(xmp_labels, start=1):
 		
 		stack_start = i
 
-if (__DEBUG__ == True): print("# Done.")
+if (__DEBUG__ == True): print("Done.")
