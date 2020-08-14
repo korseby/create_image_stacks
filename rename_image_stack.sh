@@ -29,7 +29,7 @@ function process() {
 	STACKS=$(find ${DIR} -name "z*" -maxdepth 1 -type d)
 	
 	# Names of stacked images
-	NAMES=$(find -s ${DIR} -name "IMG*" -maxdepth 1 -type d | perl -pe 's/.*\///')
+	NAMES=$(find -s ${DIR} -name "*IMG_*" -maxdepth 1 -type d | perl -pe 's/.*\///')
 	NAMES=(${NAMES})
 	
 	# Process
