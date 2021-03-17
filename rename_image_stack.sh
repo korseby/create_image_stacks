@@ -42,6 +42,7 @@ function process() {
 			z84)	METHOD="8-4";;
 			z168)	METHOD="16-8";;
 			z2416)	METHOD="24-16";;
+			z3220)	METHOD="32-20";;
 			zc)		METHOD="C";;
 			*)		echo "Error! Unknown method \"${i}\""; exit 10;;
 		esac
