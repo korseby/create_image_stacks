@@ -19,6 +19,8 @@ parser.add_argument('-n', '--dry-run', dest='dryrun', action='store_true', requi
                    help='show what would be done')
 parser.add_argument('-d', '--dir', metavar='dest_dir', dest='dest_dir', required=True,
                    help='destination directory of image files')
+parser.add_argument('-r', '--recursive', dest='recursive', action='store_true', required=False,
+                   help='recurse into subdirectories and also rename subdirectories')
 
 args = parser.parse_args()
 
@@ -28,10 +30,20 @@ __DEBUG__ = args.verbose
 # Dry-run
 __DRY_RUN__ = args.dryrun
 
+# Recursive
+__RECURSIVE__ = args.recursive
+
 # Destination image directory
 dest_dir = args.dest_dir
 
-dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".JPG", ".xmp", ".XMP"}, Path(dest_dir).glob("*")) )
+if (__RECURSIVE__ == False):
+	dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".JPG", ".xmp", ".XMP"}, Path(dest_dir).glob("*")) )
+else:
+	dest_dirs = sorted( glob.glob(f'{dest_dir}/*/**/', recursive=True) )
+	dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".JPG", ".xmp", ".XMP"}, Path(dest_dir).rglob("*")) )
+	dest_dir = [str(Path(i)) for i in dest_dirs]
+	dest_file = [str(Path(i)) for i in dest_files]
+	dest_files = dest_dir + dest_file
 
 # Rename files
 old_names = [str(Path(i)) for i in dest_files]
