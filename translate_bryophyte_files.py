@@ -180,7 +180,7 @@ def rename_files(dest_files):
 	# Show renaming action
 	if (__DRY_RUN__):
 		print("The following renaming in batches will be done:")
-		base_names = [re.sub("(IMG_\d\d\d\d |\.CR(2|3)|\.TIF|\.JPG|\.xmp)", "", i) for i in new_names]
+		base_names = [re.sub("(IMG_\d\d\d\d |IMG_\d\d\d\d-\d\d\d\d |\.CR(2|3)|\.TIF|\.JPG|\.xmp)", "", i) for i in new_names]
 		for i, label in enumerate(dict.fromkeys(base_names), start=0):
 			print( label )
 	
@@ -192,11 +192,11 @@ def rename_files(dest_files):
 		else:
 			if (__DEBUG__ == True):
 				for j in range(0, len(old_names)):
-					if (os.path.isfile(old_names[j])):
+					if (os.path.isfile(old_names[j])) or (os.path.isdir(old_names[j])):
 						print('mv' + ' ' + '\"' + old_names[j] + '\"' + ' ' + '\"' + new_names[j] + '\"')
 			if (__DRY_RUN__ == False):
 				for j in range(0, len(old_names)):
-					if (os.path.isfile(old_names[j])):
+					if (os.path.isfile(old_names[j])) or (os.path.isdir(old_names[j])):
 						os.rename(old_names[j], new_names[j])
 	
 	if (__DEBUG__ == True): print("Renaming of " + str(len(new_names)) + " files done.")
