@@ -17,6 +17,8 @@ parser.add_argument('-V', '--verbose', dest='verbose', action='store_true', requ
                    help='be verbose and show what is being done')
 parser.add_argument('-n', '--dry-run', dest='dryrun', action='store_true', required=False,
                    help='do not do anything, just show what is being done')
+parser.add_argument('-p', '--print', dest='printme', action='store_true', required=False,
+                   help='just print out stack names')
 parser.add_argument('-c', '--create_dirs_only', dest='dirs_only', action='store_true', required=False,
                    help='only create output directories and do not move destination images')
 parser.add_argument('-x', '--xmp_dir', metavar='dir', dest='xmp_dir', required=True,
@@ -33,6 +35,9 @@ __DEBUG__ = args.verbose
 
 # Dry-run
 __DRY_RUN__ = args.dryrun
+
+# Print stack names
+__PRINT__ = args.printme
 
 # Dirs only
 __DIRS_ONLY__ = args.dirs_only
@@ -68,7 +73,7 @@ if (len(xmp_labels) != len(xmp_files)):
 # Destination image directory
 img_dir = args.img_dir
 
-img_files = sorted( [f for f in glob.glob(''.join([img_dir, '/', '*.[tTjJ][iIpP][fFgG]']))] )
+img_files = sorted( [f for f in glob.glob(''.join([img_dir, '/', '*.[tTjJdDC][iIpPnNR][fFgG23]']))] )
 
 # Some information
 if (__DEBUG__) or (__DRY_RUN__):
@@ -108,7 +113,10 @@ for i, label in enumerate(xmp_labels, start=1):
 		
 		# Singular file
 		if (stack_start == stack_end):
-			if ((__DEBUG__ == True) and (os.path.isfile(img_nums[stack_start-1]))): print('Singular file: ' + 'IMG_' + img_nums[stack_start-1] + ' ' + img_names[stack_start-1])
+			if ((__DEBUG__ == True) and (os.path.isfile(img_nums[stack_start-1]))):
+				print('Singular file: ' + 'IMG_' + img_nums[stack_start-1] + ' ' + img_names[stack_start-1])
+			if (__PRINT__ == True):
+				print('IMG_' + img_nums[stack_start-1] + ' ' + img_names[stack_start-1])
 		# Stack with several files
 		else:
 			# Create directory for stack
@@ -123,7 +131,7 @@ for i, label in enumerate(xmp_labels, start=1):
 			if (__DEBUG__ == True):
 				if ((os.path.isfile(img_files[stack_start-1])) or ((__FORCE__ == True) and (__DIRS_ONLY__ == True))):
 					print('mkdir' + ' ' + '\"' + dir_name + '\"')
-			if (__DRY_RUN__ == False):
+			if (__DRY_RUN__ == False) and (__PRINT__ == False):
 				if ((os.path.isfile(img_files[stack_start-1])) or ((__FORCE__ == True) and (__DIRS_ONLY__ == True))):
 					os.makedirs(dir_name, exist_ok=True)
 			
@@ -136,10 +144,14 @@ for i, label in enumerate(xmp_labels, start=1):
 					for j in range(0, len(dir_files)):
 						if (os.path.isfile(dir_files[j])):
 							print('mv' + ' ' + '\"' + dir_files[j] + '\"' + ' ' + '\"' + str(dir_name + '/' + dir_bases[j] + dir_exts[j]) + '\"')
-				if (__DRY_RUN__ == False):
+				if (__DRY_RUN__ == False) and (__PRINT__ == False):
 					for j in range(0, len(dir_files)):
 						if (os.path.isfile(dir_files[j])):
 							os.rename(dir_files[j], str(dir_name + '/' + dir_bases[j] + dir_exts[j]))
+			
+			# Print out individual stack name
+			if (__PRINT__== True):
+				for j in range(0, len(dir_files)): print(re.sub("(\/|\.)", "", dir_name, 4)) 
 		
 		stack_start = i
 
