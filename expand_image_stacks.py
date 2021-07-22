@@ -52,7 +52,8 @@ for i, label in enumerate(image_stack, start=1):
 		end = int(label[9:13])
 		name = label[13:]
 		for j in range(start, end+1):
-			print("IMG_" + str(j).zfill(4) + name)
+			#print("IMG_" + str(j).zfill(4) + name)
+			print(label)
 	else:
 		print(label)
 
