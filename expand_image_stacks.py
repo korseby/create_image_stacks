@@ -47,14 +47,17 @@ else:
 # Iterate through object
 for i, label in enumerate(image_stack, start=1):
 	# Expand stack
-	if (label[8] == "-"):
-		start = int(label[4:8])
-		end = int(label[9:13])
-		name = label[13:]
-		for j in range(start, end+1):
-			#print("IMG_" + str(j).zfill(4) + name)
+	if (len(label) > 13):
+		if (label[8] == "-"):
+			start = int(label[4:8])
+			end = int(label[9:13])
+			name = label[13:]
+			print(start)
+			print(end)
+			for j in range(start, end+1):
+				#print("IMG_" + str(j).zfill(4) + name)
+				print(label)
+		else:
 			print(label)
-	else:
-		print(label)
 
 
