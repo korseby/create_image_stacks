@@ -3,6 +3,9 @@ Create script to build image stacks based on a list of XMP files containing colo
 
 Version: 0.3
 
+[![DOI](https://zenodo.org/badge/203791221.svg)](https://zenodo.org/badge/latestdoi/203791221)
+
+
 ## Usage
 
 ```
