@@ -51,7 +51,7 @@ function process() {
 		esac
 		
 		# Names of stacked images to be renamed
-		NEW_NAMES=$(find -s ${i} -iname "*.JPG")
+		NEW_NAMES=$(find -s ${i} -iname "*[TIF,JPG]")
 		NEW_NAMES=(${NEW_NAMES})
 		
 		# Check for same number of images
@@ -60,9 +60,12 @@ function process() {
 			exit 11
 		fi
 		
+		# Get file type
+		FILE_TYPE="$(echo ${NEW_NAMES[${1}]^^} | perl -pe 's/.*\.//')"
+		
 		for ((c=0;c<${#NEW_NAMES[@]};c++)); do
-			if [[ ${DRY_RUN} == True ]]; then echo "mv \"${NEW_NAMES[${c}]}\" \"${i}/${NAMES[${c}]} (${METHOD}).JPG\"..."; fi
-			if [[ ${DRY_RUN} == False ]]; then mv "${NEW_NAMES[${c}]}" "${i}/${NAMES[${c}]} (${METHOD}).JPG"; fi
+			if [[ ${DRY_RUN} == True ]]; then echo "mv \"${NEW_NAMES[${c}]}\" \"${i}/${NAMES[${c}]} (${METHOD}).${FILE_TYPE}\"..."; fi
+			if [[ ${DRY_RUN} == False ]]; then mv "${NEW_NAMES[${c}]}" "${i}/${NAMES[${c}]} (${METHOD}).${FILE_TYPE}"; fi
 		done
 	done
 }
