@@ -57,6 +57,8 @@ def rename_files(dest_files):
 	new_names = [re.sub(" Archegonienstand ", " archegoniophore ", i) for i in new_names]
 	new_names = [re.sub(" Archegonien ", " archegonia ", i) for i in new_names]
 	new_names = [re.sub(" Archegonium ", " archegonium ", i) for i in new_names]
+	new_names = [re.sub(" Atemporen ", " air pores ", i) for i in new_names]
+	new_names = [re.sub(" Atempore ", " air pore ", i) for i in new_names]
 	new_names = [re.sub(" Aufsicht ", " anterior view ", i) for i in new_names]
 	new_names = [re.sub(" Balgen ", " macro bellow ", i) for i in new_names]
 	new_names = [re.sub(" Balgengeraet ", " macro bellow ", i) for i in new_names]
@@ -64,6 +66,8 @@ def rename_files(dest_files):
 	new_names = [re.sub(" basaler ", " basal ", i) for i in new_names]
 	new_names = [re.sub(" basalen ", " basal ", i) for i in new_names]
 	new_names = [re.sub(" basale ", " basal ", i) for i in new_names]
+	new_names = [re.sub(" Bauchschuppen ", " ventral scales ", i) for i in new_names]
+	new_names = [re.sub(" Bauchschuppe ", " ventral scale ", i) for i in new_names]
 	new_names = [re.sub(" Blatt Querschnitt ", " leaf cross section ", i) for i in new_names]
 	new_names = [re.sub(" Blattachsel ", " leaf axis ", i) for i in new_names]
 	new_names = [re.sub(" Blattbasis ", " leaf base ", i) for i in new_names]
@@ -76,6 +80,7 @@ def rename_files(dest_files):
 	new_names = [re.sub(" Blatt ", " leaf ", i) for i in new_names]
 	new_names = [re.sub(" breit ", " wide ", i) for i in new_names]
 	new_names = [re.sub(" Brutblatt ", " perigon leaf ", i) for i in new_names]
+	new_names = [re.sub(" Brutbecher ", " gemmae cup ", i) for i in new_names]
 	new_names = [re.sub(" Brutgemmen ", " gemmae ", i) for i in new_names]
 	new_names = [re.sub(" Brutgemme ", " gemmae ", i) for i in new_names]
 	new_names = [re.sub(" Brutkoerper ", " gemmae ", i) for i in new_names]
@@ -105,6 +110,7 @@ def rename_files(dest_files):
 	new_names = [re.sub(" gezaehnte ", " toothed ", i) for i in new_names]
 	new_names = [re.sub(" gezaehnt ", " toothed ", i) for i in new_names]
 	new_names = [re.sub(" Habitus ", " stature ", i) for i in new_names]
+	new_names = [re.sub(" Habitus", " stature", i) for i in new_names]
 	new_names = [re.sub(" herablaufendes ", " winged ", i) for i in new_names]
 	new_names = [re.sub(" herablaufender ", " winged ", i) for i in new_names]
 	new_names = [re.sub(" herablaufende ", " winged ", i) for i in new_names]
@@ -140,11 +146,13 @@ def rename_files(dest_files):
 	new_names = [re.sub(" Perichaetialblatt ", " perichaetial leaf ", i) for i in new_names]
 	new_names = [re.sub(" Pflanzenspitze ", " plant apex ", i) for i in new_names]
 	new_names = [re.sub(" Pflanzen ", " plants ", i) for i in new_names]
+	new_names = [re.sub(" Pflanze ", " plant ", i) for i in new_names]
 	new_names = [re.sub(" Querschnitt ", " cross section ", i) for i in new_names]
 	new_names = [re.sub(" Rand ", " margin ", i) for i in new_names]
 	new_names = [re.sub(" Rippe ", " vitta ", i) for i in new_names]
 	new_names = [re.sub(" Saum ", " bordered margin ", i) for i in new_names]
 	new_names = [re.sub(" Seitenansicht ", " lateral side ", i) for i in new_names]
+	new_names = [re.sub(" Spitze ", " apex ", i) for i in new_names]
 	new_names = [re.sub(" Sporogonen ", " sporphytes ", i) for i in new_names]
 	new_names = [re.sub(" Sporogon ", " sporophyte ", i) for i in new_names]
 	new_names = [re.sub(" Sporophyt ", " sporophyte ", i) for i in new_names]
@@ -154,6 +162,7 @@ def rename_files(dest_files):
 	new_names = [re.sub(" Spore ", " spore ", i) for i in new_names]
 	new_names = [re.sub(" Staemmchen ", " stem ", i) for i in new_names]
 	new_names = [re.sub(" Thallus ", " thallus ", i) for i in new_names]
+	new_names = [re.sub(" Thallusende ", " thallus apex ", i) for i in new_names]
 	new_names = [re.sub(" und ", " and ", i) for i in new_names]
 	new_names = [re.sub(" unreifes ", " immature ", i) for i in new_names]
 	new_names = [re.sub(" unreifer ", " immature ", i) for i in new_names]
@@ -206,7 +215,7 @@ def rename_files(dest_files):
 # -------------------- MAIN --------------------
 if (__RECURSIVE__ == False):
 	# Rename files
-	dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".JPG", ".xmp", ".XMP"}, Path(dest_dir).glob("*")) )
+	dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".tiff", ".JPG", ".xmp", ".XMP"}, Path(dest_dir).glob("*")) )
 	rename_files(dest_files)
 else:
 	# Rename directories first
@@ -214,7 +223,7 @@ else:
 	rename_files(dest_dirs)
 	
 	# Rename files afterwards in all subdirectories
-	dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".JPG", ".xmp", ".XMP"}, Path(dest_dir).rglob("*")) )
+	dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".tiff", ".JPG", ".xmp", ".XMP"}, Path(dest_dir).rglob("*")) )
 	rename_files(dest_files)
 
 
