@@ -189,7 +189,7 @@ def rename_files(dest_files):
 	# Show renaming action
 	if (__DRY_RUN__):
 		print("The following renaming in batches will be done:")
-		base_names = [re.sub("(IMG_\d\d\d\d |IMG_\d\d\d\d-\d\d\d\d |\.CR(2|3)|\.TIF|\.JPG|\.xmp)", "", i) for i in new_names]
+		base_names = [re.sub("(IMG_\d\d\d\d |IMG_\d\d\d\d-\d\d\d\d |\.CR(2|3)|\.TIF|\.JPG|\.ORF|\.HEIC|\.xmp|\.XMP)", "", i) for i in new_names]
 		for i, label in enumerate(dict.fromkeys(base_names), start=0):
 			print( label )
 	
@@ -215,7 +215,7 @@ def rename_files(dest_files):
 # -------------------- MAIN --------------------
 if (__RECURSIVE__ == False):
 	# Rename files
-	dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".tiff", ".JPG", ".xmp", ".XMP"}, Path(dest_dir).glob("*")) )
+	dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".tiff", ".JPG", ".ORF", ".HEIC", ".xmp", ".XMP"}, Path(dest_dir).glob("*")) )
 	rename_files(dest_files)
 else:
 	# Rename directories first
@@ -223,7 +223,7 @@ else:
 	rename_files(dest_dirs)
 	
 	# Rename files afterwards in all subdirectories
-	dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".tiff", ".JPG", ".xmp", ".XMP"}, Path(dest_dir).rglob("*")) )
+	dest_files = sorted( filter(lambda p: p.suffix in {".CR2", ".CR3", ".DNG", ".TIF", ".tiff", ".JPG", ".ORF", ".HEIC", ".xmp", ".XMP"}, Path(dest_dir).rglob("*")) )
 	rename_files(dest_files)
 
 
