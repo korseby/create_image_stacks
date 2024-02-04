@@ -125,8 +125,9 @@ for i, label in enumerate(xmp_labels, start=1):
 				print("Error! No names in stack.")
 				exit(4)
 			elif (len(dir_name) > 1):
-				print("Error! More than one unique name in stack.")
-				exit(5)
+				print("Error! More than one unique name in stack: ", img_names[stack_start-1:stack_end])
+				if (__FORCE__ != True):
+					exit(5)
 			dir_name = str(str(img_dir) + '/' + 'IMG_' + img_nums[stack_start-1] + '-' + img_nums[stack_end-1] + ' ' + str(dir_name[0]) + '/')
 			if (__DEBUG__ == True):
 				if ((os.path.isfile(img_files[stack_start-1])) or ((__FORCE__ == True) and (__DIRS_ONLY__ == True))):

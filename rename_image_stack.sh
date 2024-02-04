@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION="0.2"
+VERSION="0.9"
 
 IFS=$'\n'
 
@@ -47,6 +47,12 @@ function process() {
 			zd)		METHOD="DMap";;
 			za)		METHOD="A";;
 			zp)		METHOD="P";;
+			z42zc)	METHOD="4-2_C";;
+			z84zc)	METHOD="8-4_C";;
+			z168zc)	METHOD="16-8_C";;
+			z2416c)	METHOD="24-16_C";;
+			zdzc)	METHOD="DMap_C";;
+			zdzp)	METHOD="DMap_P";;
 			*)		echo "Error! Unknown method \"${i}\""; exit 10;;
 		esac
 		
