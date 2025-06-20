@@ -34,15 +34,21 @@ function process() {
 	
 	# Process
 	for i in ${STACKS}; do
-		if [[ ${DRY_RUN} == True ]]; then echo "Looking for *.JPG files in \"${i}\"..."; fi
+		if [[ ${DRY_RUN} == True ]]; then echo "Looking for IMG_* files in \"${i}\"..."; fi
 		
 		# Supported methods
 		case $(echo ${i} | perl -pe 's/.*\///') in
+			z21)	METHOD="2-1";;
 			z42)	METHOD="4-2";;
 			z84)	METHOD="8-4";;
+			z88)	METHOD="8-8";;
 			z168)	METHOD="16-8";;
 			z2416)	METHOD="24-16";;
+			z248)	METHOD="24-8";;
 			z3220)	METHOD="32-20";;
+			z328)	METHOD="32-8";;
+			z408)	METHOD="40-8";;
+			z508)	METHOD="50-8";;
 			zc)		METHOD="C";;
 			zd)		METHOD="DMap";;
 			za)		METHOD="A";;
@@ -57,12 +63,12 @@ function process() {
 		esac
 		
 		# Names of stacked images to be renamed
-		NEW_NAMES=$(find -s ${i} -iname "*[TIF,JPG]")
+		NEW_NAMES=$(find -s ${i} -iname "*[TIF]")
 		NEW_NAMES=(${NEW_NAMES})
 		
 		# Check for same number of images
 		if [[ ${#NAMES[@]} -ne ${#NEW_NAMES[@]} ]]; then
-			echo "Error! Number of images (${#NAMES[@]}) does not match number of stacked images (${#NEW_NAMES[@]}) to be renamed."
+			echo "Error! Number of images (${#NAMES[@]}) does not match number of stacked images (${#NEW_NAMES[@]}) to be renamed in ${METHOD}."
 			exit 11
 		fi
 		
