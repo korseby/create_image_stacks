@@ -56,10 +56,10 @@ for xmp_filename in xmp_files:
 	xmp_file = open(xmp_filename, "r")
 	xmp_label = False
 	for line in xmp_file:
-		if re.search("xmp\:Label\=", line):
-			line = line.lower().rstrip('\r\n')
-			line = re.sub(".*xmp\:label\=", "", line)
-			line = re.sub("\"", "", line)
+		if re.search(r"xmp\:Label\=", line):
+			line = line.lower().rstrip(r'\r\n')
+			line = re.sub(r".*xmp\:label\=", "", line)
+			line = re.sub(r"\"", "", line)
 			xmp_labels.append(line)
 			xmp_label = True
 	if (xmp_label == False): xmp_labels.append('')
@@ -95,8 +95,8 @@ if (len(xmp_files) != len(img_files)):
 # Image files and names
 img_bases = [Path(i).stem for i in img_files]
 img_exts = [os.path.splitext(f)[1] for f in img_files]
-img_names = [re.sub("IMG_\d\d\d\d ", "", i) for i in img_bases]
-img_nums = [re.sub("(IMG_|\ .*)", "", i) for i in img_bases]
+img_names = [re.sub(r"IMG_\d\d\d\d ", "", i) for i in img_bases]
+img_nums = [re.sub(r"(IMG_|\ .*)", "", i) for i in img_bases]
 
 # Create stacks
 img_stacks = []
@@ -152,7 +152,7 @@ for i, label in enumerate(xmp_labels, start=1):
 			
 			# Print out individual stack name
 			if (__PRINT__== True):
-				for j in range(0, len(dir_files)): print(re.sub("(\/|\.)", "", dir_name, 4)) 
+				for j in range(0, len(dir_files)): print(re.sub(r"(\/|\.)", "", dir_name, 4)) 
 		
 		stack_start = i
 
